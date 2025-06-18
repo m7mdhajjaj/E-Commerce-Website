@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import  { useFilterContext } from "../FilterComponent";
 
 interface Prodcut {
   category: string;
@@ -8,6 +9,19 @@ interface fetchResponse {
 }
 
 const Sidebar = () => {
+
+  const {
+    searchQuery,
+    setSearchQuery,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
+    selectedCategories,
+    setSelectedCategories,
+    setKeywords,
+  }  = useFilterContext();
+
   const [categories, setCategories] = useState<string[]>([]);
   const [keywords] = useState<string[]>([
     "apple",
@@ -46,6 +60,8 @@ const Sidebar = () => {
           type="text"
           className="border-2 rounded px-2 sm:mb-0"
           placeholder="Search Product"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
         />
 
         <div className="flex justify-center items-center">
@@ -53,11 +69,17 @@ const Sidebar = () => {
             type="text"
             className="border-2 mr-2 px-5 py-3 mb-3 w-full"
             placeholder="Min"
+            value={minPrice ?? ""}
+            onChange={(e) => setMinPrice(e.target.value ? parseFloat(e.target.value) : undefined)}
+
+            
           />
           <input
             type="text"
             className="border-2 mr-2 px-5 py-3 mb-3 w-full"
             placeholder="Max"
+            value={maxPrice ?? ""}
+            onChange={(e) => setMaxPrice(e.target.value ? parseFloat(e.target.value) : undefined)}
           />
         </div>
         <div className="category">
@@ -69,6 +91,8 @@ const Sidebar = () => {
                   type="radio"
                   name="category"
                   value={category}
+                  onChange={(e) => setSelectedCategories(e.target.value)}
+                    checked={selectedCategories === category}
                   className="mr-2 w-[16px] h-[16px]"
                 />
                 {category}
@@ -81,6 +105,7 @@ const Sidebar = () => {
           <div>
             {keywords.map((keyword, index) => (
               <button
+              onClick={() => setKeywords(keyword)}
                 key={index}
                 className="block mb-2 px-4 py-2 w-full text-left border rounded hover:bg-gray-200">
                 {keyword}
@@ -88,7 +113,15 @@ const Sidebar = () => {
             ))}
           </div>
         </div>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600">
+        <button
+        onClick={() => {
+          setSearchQuery("");
+          setMinPrice(undefined);
+          setMaxPrice(undefined);
+          setSelectedCategories("");
+          setKeywords("");
+        }}
+         className="bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600">
             reset filters
         </button>
       </section>
