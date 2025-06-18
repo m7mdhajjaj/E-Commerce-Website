@@ -1,1 +1,41 @@
 @import "tailwindcss";
+
+@media (max-width: 768px) {
+  .ml-64 {
+    margin-left: 0 !important; 
+  }
+  
+  .w-\[calc\(100\%-16rem\)\] {
+    width: 100% !important;
+  }
+  
+  .hidden.md\:flex {
+    display: none !important;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-in-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-in-out forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
